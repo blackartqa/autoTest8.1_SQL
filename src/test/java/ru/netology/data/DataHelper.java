@@ -34,18 +34,13 @@ public class DataHelper {
     }
 
     public static VerificationCode getValidVerificationCode() {
-        String codeSQL = "SELECT code FROM auth_codes " +
-                "ORDER BY created DESC limit 1";
+        String codeSQL = "SELECT code FROM auth_codes " + "ORDER BY created DESC limit 1";
 
         val runner = new QueryRunner();
 
         String code = null;
 
-        try (
-                val connection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
-                );
-        ) {
+        try (val connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");) {
             code = runner.query(connection, codeSQL, new ScalarHandler<>());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,11 +59,7 @@ public class DataHelper {
         val deleteCards = "DELETE FROM cards";
         val deleteAuthCodes = "DELETE FROM auth_codes";
         val deleteCardTrans = "DELETE FROM card_transactions";
-        try (
-                val connection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
-                );
-        ) {
+        try (val connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");) {
             runner.update(connection, deleteCardTrans);
             runner.update(connection, deleteAuthCodes);
             runner.update(connection, deleteCards);
